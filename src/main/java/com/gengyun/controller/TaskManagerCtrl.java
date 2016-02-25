@@ -49,10 +49,12 @@ public class TaskManagerCtrl {
         return resultEntity;
     }
 
-    @RequestMapping(value = "addtask",method = RequestMethod.POST,headers = {"content-type=application/json","content-type=application/xml"})
+    @RequestMapping(value = "addtask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
     @ResponseBody
-    ResultEntity addTask(@RequestBody Task task) {
+    ResultEntity addTask(@RequestBody Task task, HttpServletRequest request) {
         ResultEntity resultEntity = new ResultEntity();
+        User user = (User) request.getSession().getAttribute("user");
+        task.setUid(user.getUid());
         System.out.println(JSON.toJSONString(task));
 
         return resultEntity;
