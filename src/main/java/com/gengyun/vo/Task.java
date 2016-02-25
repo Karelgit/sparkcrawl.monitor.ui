@@ -7,6 +7,7 @@ import java.util.List;
  * Created by root on 16-2-22.
  */
 public class Task implements Serializable {
+    private String uid;
     private String name;
     private String tasktypeid;
     private int crawlerdepth;
@@ -17,6 +18,14 @@ public class Task implements Serializable {
     private List<String> protocalfilter;
     private List<String> suffixfilter;
     private List<String> regexfilter;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;
