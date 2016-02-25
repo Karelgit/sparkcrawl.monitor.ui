@@ -108,7 +108,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="监控" data-toggle="collapse-next" class="has-submenu">
+                    <a href=";" title="监控" data-toggle="collapse-next" class="has-submenu">
                         <em class="fa fa-flask"></em>
                         <span class="item-text">监控</span>
                     </a>

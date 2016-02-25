@@ -16,9 +16,9 @@
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           destroy-method="close">
         <property name="url"
-                  value="jdbc:mysql://90.90.90.7:3306/db_spark_crawler?useUnicode=true&amp;characterEncoding=UTF-8"/>
-        <property name="username" value="builder"/>
-        <property name="password" value="builder"/>
+                  value="jdbc:mysql://108.108.108.6:3306/db_spark_crawler?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="filters" value="stat"/>
 
