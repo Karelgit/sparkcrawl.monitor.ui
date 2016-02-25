@@ -80,7 +80,7 @@ public class TaskManagerCtrl {
         String str = "";
         try {
 
-            str = HttpUtils.post("http://118.118.118.3:8080/monitor/alltasks/",json.toJSONString());
+            str = HttpUtils.doPost("http://118.118.118.3:8080/monitor/alltasks/",json.toJSONString());
         }catch (IOException e)  {
             e.printStackTrace();
         }
