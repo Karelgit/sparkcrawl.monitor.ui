@@ -108,7 +108,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="监控" data-toggle="collapse-next" class="has-submenu">
+                    <a href="task/taskManagerView.do" title="任务管理" data-toggle="" class="no-submenu">
+                        <em class="fa fa-cube"></em>
+                        <span class="item-text">任务管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" title="监控" data-toggle="collapse-next" class="has-submenu">
                         <em class="fa fa-flask"></em>
                         <span class="item-text">监控</span>
                     </a>
