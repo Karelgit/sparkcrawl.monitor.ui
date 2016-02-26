@@ -20,8 +20,8 @@ public class HttpUtils {
         post.addHeader("content-type", "application/json");
         post.addHeader("Accept", "application/json");
 
-
-        post.setEntity(new StringEntity(json));
+        if (json != null)
+            post.setEntity(new StringEntity(json));
 
         HttpResponse response = client.execute(post);
 

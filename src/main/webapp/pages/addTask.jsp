@@ -108,7 +108,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href=";" title="监控" data-toggle="collapse-next" class="has-submenu">
+                    <a href="task/taskManagerView.do" title="任务管理" data-toggle="" class="no-submenu">
+                        <em class="fa fa-cube"></em>
+                        <span class="item-text">任务管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" title="监控" data-toggle="collapse-next" class="has-submenu">
                         <em class="fa fa-flask"></em>
                         <span class="item-text">监控</span>
                     </a>
@@ -124,7 +130,7 @@
                                 <span class="item-text">实时查看</span>
                             </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="monitor/moduleview.do" title="模块监控" data-toggle="" class="no-submenu">
                                 <span class="item-text">模块监控</span>
                             </a>

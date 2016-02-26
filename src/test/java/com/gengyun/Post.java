@@ -20,7 +20,7 @@ public class Post {
         json.put("pageSize",100);
         json.put("pageNo",0);
 
-        String str = HttpUtils.post("http://118.118.118.3:8080/monitor/alltasks/",json.toJSONString());
+        String str = HttpUtils.doPost("http://118.118.118.3:8080/monitor/alltasks/",json.toJSONString());
         TaskPage taskPage= JSON.parseObject(str, TaskPage.class);
 //        System.out.println(manageTasks.size());
         System.out.println(JSON.toJSONString(taskPage));

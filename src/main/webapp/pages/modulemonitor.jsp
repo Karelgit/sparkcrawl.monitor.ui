@@ -64,11 +64,6 @@
                         <em class="fa fa-navicon"></em>
                     </a>
                 </li>
-                <%--<li>
-                    <a href="javascript:void(0);" data-toggle-state="aside-user">
-                        当前用户：
-                    </a>
-                </li>--%>
              </ul>
             <!-- END Left navbar-->
 
@@ -86,9 +81,9 @@
             <div class="item user-block">
 
                 <!-- Name and Role-->
-                <div class="user-block-info">
+                <div class="user-block-info" style="font-size :20px;text-align:center">
                     <span class="user-block-name item-text">当前用户</span>
-                    <span class="user-block-role">UX-Dev</span>
+                    <span class="user-block-role" style="font-size :20px"><c:out value="${uname }"></c:out></span>
                 </div>
             </div>
             <!-- END user info-->

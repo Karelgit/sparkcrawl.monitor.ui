@@ -70,15 +70,9 @@ public class UserCtrl {
     public void sessionHandlerByCacheMap(HttpServletRequest request) {
         String userid = request.getSession().getAttribute("userid").toString();
         if (SessionListener.sessionContext.getSessionMap().get(userid) != null) {
-            /*HttpSession userSession = (HttpSession) SessionListener.sessionContext.getSessionMap().get(userid);
-            //注销在线用户
-            userSession.invalidate();
-            SessionListener.sessionContext.getSessionMap().remove(userid);
-            //清除在线用户后，更新map,替换map sessionid
-            SessionListener.sessionContext.getSessionMap().remove(request.getSession().getId());
-            SessionListener.sessionContext.getSessionMap().put(userid, request.getSession());*/
+
         } else {
-            // 根据当前sessionid 取session对象。 更新map key=用户名 value=session对象 删除map
+
             SessionListener.sessionContext.getSessionMap().get(request.getSession().getId());
             SessionListener.sessionContext.getSessionMap().put(userid, SessionListener.sessionContext.getSessionMap().get(request.getSession().getId()));
             SessionListener.sessionContext.getSessionMap().remove(request.getSession().getId());
