@@ -985,6 +985,7 @@
  * Requires uikit core - codemirror - marked
  =========================================================*/
 
+/*
 (function($, window, document){
     'use strict';
 
@@ -1397,6 +1398,7 @@
     return Markdownarea;
 
 }(jQuery, window, document));
+*/
 
 /**=========================================================
  * Module: navbar-search.js

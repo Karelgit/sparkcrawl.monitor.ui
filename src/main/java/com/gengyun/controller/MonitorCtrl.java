@@ -2,9 +2,7 @@ package com.gengyun.controller;
 
 import com.gengyun.model.User;
 import com.gengyun.service.MonitorService;
-import com.gengyun.vo.ResultEntity;
-import com.gengyun.vo.RunningSingleTask;
-import com.gengyun.vo.RunningTask;
+import com.gengyun.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +31,19 @@ public class MonitorCtrl {
         User user = (User) request.getSession().getAttribute("user");
         request.setAttribute("uname", user.getUname());
         return "pages/historyview";
+    }
+
+
+    @RequestMapping("/historydetail")
+    String historydetail(HttpServletRequest request, @RequestParam("taskid") String taskid, @RequestParam("pass") int pass) {
+        User user = (User) request.getSession().getAttribute("user");
+        request.setAttribute("uname", user.getUname());
+        request.setAttribute("historyTaskID", taskid);
+        HistorySingleTaskSearch historySingleTaskSearch=new HistorySingleTaskSearch();
+        historySingleTaskSearch.setTaskid(taskid);
+        historySingleTaskSearch.setPass(pass);
+        request.setAttribute("historySingleTask", monitorService.getHistorySingleTask(historySingleTaskSearch));
+        return "pages/historydetail";
     }
 
     @RequestMapping("/realtimeview")
@@ -85,6 +96,12 @@ public class MonitorCtrl {
         }
 
         return resultEntity;
+    }
+
+    @RequestMapping(value = "history", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    HistoryTaskPage getHis(@RequestBody HistoryTaskSearchUI historyTaskSearchUI) {
+        return monitorService.getHistoryTaskPage(historyTaskSearchUI);
     }
 
 }

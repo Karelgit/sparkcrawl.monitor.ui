@@ -5,6 +5,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class HttpUtils {
         post.addHeader("Accept", "application/json");
 
         if (json != null)
-            post.setEntity(new StringEntity(json));
+            post.setEntity(new StringEntity(json,HTTP.UTF_8));
 
         HttpResponse response = client.execute(post);
 

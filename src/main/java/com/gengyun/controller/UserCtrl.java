@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by root on 16-2-19.
@@ -37,12 +38,14 @@ public class UserCtrl {
             request.getSession().setAttribute("user", user);
             request.getSession().setAttribute("userid", user.getUid());
             //sessionHandlerByCacheMap(request);
+            System.out.println(SessionListener.sessionContext.getSessionMap().get(user.getUid()));
+
             if (SessionListener.sessionContext.getSessionMap().get(user.getUid()) != null) {
                 request.setAttribute("userValidateMsg", "用户已登录！");
                 return "pages/login";
             } else {
-                HttpSession session = (HttpSession) SessionListener.sessionContext.getSessionMap().get(request.getSession().getId());
-                SessionListener.sessionContext.getSessionMap().put(user.getUid(), session);
+
+                //SessionListener.sessionContext.getSessionMap().put(user.getUid(), request.getSession());
                 SessionListener.sessionContext.getSessionMap().remove(request.getSession().getId());
                 if (user.getUsertype() == 1) {
                     return "pages/modulemonitor";
@@ -59,11 +62,17 @@ public class UserCtrl {
     }
 
     @RequestMapping("/logout")
-    public void logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         User user=(User) request.getSession().getAttribute("user");
         SessionListener.sessionContext.getSessionMap().remove(user.getUid());
         SessionListener.sessionContext.DelSession(request.getSession());
         request.getSession().invalidate();
+        try {
+            response.sendRedirect("/SparkCrawlMonitorUI/user/loginView.do?pastDue=false");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

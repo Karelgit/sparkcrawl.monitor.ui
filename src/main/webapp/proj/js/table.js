@@ -1,4 +1,3 @@
-
 var pageNow = 1;
 
 var pageNum = 1;
@@ -11,62 +10,62 @@ var pageSize = 10;
 function paging() {
     var str = "";
     str = "<ul class='pagination pull-right'>";
-    if(pageNum < 6 && pageNum > 0){
-        if(pageNow != 1){
+    if (pageNum < 6 && pageNum > 0) {
+        if (pageNow != 1) {
             str += "<li><a href='javascript:previousPage()'><i class='fa fa-chevron-left'></i></a></li>";
-        }else{
+        } else {
             str += "<li class='disabled'><a><i class='fa fa-chevron-left'></i></a></li>";
         }
-        for ( var i = 1; i <= pageNum; i++) {
-            if(i == pageNow){
+        for (var i = 1; i <= pageNum; i++) {
+            if (i == pageNow) {
                 str += "<li class='active'><a>" + i + "</a></li>";
-            }else {
+            } else {
                 str += "<li><a href='javascript:jumpPage(" + i + ")'>" + i + "</a></li>";
             }
         }
-        if(pageNow != pageNum){
+        if (pageNow != pageNum) {
             str += "<li><a href='javascript:nextPage()'><i class='fa fa-chevron-right'></i></a></li>";
-        }else{
+        } else {
             str += "<li class='disabled'><a><i class='fa fa-chevron-right'></i></a></li>";
         }
-    }else if (pageNum >= 6) {
+    } else if (pageNum >= 6) {
         if (pageNow < 4) {
-            if(pageNow != 1){
+            if (pageNow != 1) {
                 str += "<li><a href='javascript:previousPage()'><i class='fa fa-chevron-left'></i></a></li>";
-            }else{
+            } else {
                 str += "<li class='disabled'><a><i class='fa fa-chevron-left'></i></a></li>";
             }
-            str += 		"<li class='invisible'><a></a></li>";
-            for ( var i = 1; i < 4; i++) {
-                if(i == pageNow){
+            str += "<li class='invisible'><a></a></li>";
+            for (var i = 1; i < 4; i++) {
+                if (i == pageNow) {
                     str += "<li class='active'><a>" + i + "</a></li>";
-                }else {
+                } else {
                     str += "<li><a href='javascript:jumpPage(" + i + ")'>" + i + "</a></li>";
                 }
             }
-            str += 		"<li class='disabled'><a>…</a></li>" +
+            str += "<li class='disabled'><a>…</a></li>" +
                 "<li><a href='javascript:jumpPage(" + pageNum + ")'>" + pageNum + "</a></li>" +
                 "<li class='invisible'><a></a></li>" +
                 "<li><a href='javascript:nextPage()'><i class='fa fa-chevron-right'></i></a></li>";
-        }else if ((pageNum - pageNow) < 3) {
+        } else if ((pageNum - pageNow) < 3) {
             str += "<li><a href='javascript:previousPage()'><i class='fa fa-chevron-left'></i></a></li>" +
                 "<li class='invisible'><a></a></li>" +
                 "<li><a href='javascript:jumpPage(" + 1 + ")'>" + 1 + "</a></li>" +
                 "<li class='disabled'><a>…</a></li>";
-            for ( var i = pageNum - 2; i <= pageNum; i++) {
-                if(i == pageNow){
+            for (var i = pageNum - 2; i <= pageNum; i++) {
+                if (i == pageNow) {
                     str += "<li class='active'><a>" + i + "</a></li>";
-                }else {
+                } else {
                     str += "<li><a href='javascript:jumpPage(" + i + ")'>" + i + "</a></li>";
                 }
             }
-            str += 		"<li class='invisible'><a></a></li>";
-            if(pageNow != pageNum){
+            str += "<li class='invisible'><a></a></li>";
+            if (pageNow != pageNum) {
                 str += "<li><a href='javascript:nextPage()'><i class='fa fa-chevron-right'></i></a></li>";
-            }else{
+            } else {
                 str += "<li class='disabled'><a><i class='fa fa-chevron-right'></i></a></li>";
             }
-        }else {
+        } else {
             str += "<li><a href='javascript:previousPage()'><i class='fa fa-chevron-left'></i></a></li>" +
                 "<li><a href='javascript:jumpPage(" + 1 + ")'>" + 1 + "</a></li>" +
                 "<li class='disabled'><a>…</a></li>" +
@@ -97,12 +96,33 @@ function initPage() {
  */
 function previousPage() {
 
-    if(pageNow > 1) {
+    if (pageNow > 1) {
 
         pageNow--;
 
-        query();
+        //query();
+        var search;
+        if (getPageNo() == 0) {
+            search = {
+                name: $("#tasknameInput").val(),
+                starttime: startDateTime,
+                endtime: endDateTime,
+                pageNo: getPageNo(),
+                pageSize: getPageSize()
+            }
+            ;
+        }
 
+        else
+            search = {
+                name: $("#tasknameInput").val(),
+                starttime: startDateTime,
+                endtime: endDateTime,
+                pageNo: getPageNo() + getPageSize() - 1,
+                pageSize: getPageSize()
+            };
+        console.log(getPage());
+        funcs.query(search);
     }
 }
 
@@ -113,11 +133,18 @@ function previousPage() {
  */
 function nextPage() {
 
-    if(pageNow < pageNum) {
+    if (pageNow < pageNum) {
 
         pageNow++;
-
-        query();
+        var search = {
+            name: $("#tasknameInput").val(),
+            starttime: startDateTime,
+            endtime: endDateTime,
+            pageNo: getPageNo() + getPageSize() - 1,
+            pageSize: getPageSize()
+        };
+        console.log(getPage());
+        funcs.query(search);
 
     }
 }
@@ -129,11 +156,30 @@ function nextPage() {
  */
 function jumpPage(i) {
 
-    if(i > 0 && i <= pageNum) {
+    if (i > 0 && i <= pageNum) {
 
         pageNow = i;
 
-        query();
+        var search;
+
+        if (pageNow == 1) {
+            search = {
+                name: $("#tasknameInput").val(),
+                starttime: startDateTime,
+                endtime: endDateTime,
+                pageNo: getPageNo(),
+                pageSize: getPageSize()
+            };
+        } else
+            search = {
+                name: $("#tasknameInput").val(),
+                starttime: startDateTime,
+                endtime: endDateTime,
+                pageNo: getPageNo() + getPageSize() - 1,
+                pageSize: getPageSize()
+            };
+        console.log(getPage());
+        funcs.query(search);
 
     }
 }
@@ -144,9 +190,9 @@ function jumpPage(i) {
  * @param i
  */
 function totalPage(i) {
-    if(i != 0) {
+    if (i != 0) {
 
-        if(i % pageSize == 0) {
+        if (i % pageSize == 0) {
 
             pageNum = i / pageSize;
 
@@ -167,7 +213,7 @@ function totalPage(i) {
  * @returns {___anonymous4046_4096}
  */
 function getPage() {
-    return { pageSize : getPageSize() , pageNo : getPageNo() };
+    return {pageSize: getPageSize(), pageNo: getPageNo()};
 }
 
 /**
@@ -198,8 +244,8 @@ function getPageNo() {
 function loading() {
 
     var str = '<div style="text-align: center; width: 100%;height:60px; padding:20px">'
-        +	'<span>数据正在加载中</span>'
-        +	'<img alt="" src="img/loading.gif" style="width: 35px;height: 35px">'
+        + '<span>数据正在加载中</span>'
+        + '<img alt="" src="img/loading.gif" style="width: 35px;height: 35px">'
         + '</div>';
 
     return str;
@@ -213,7 +259,7 @@ function loading() {
 function notDat() {
 
     var str = '<div style="text-align: center; width: 100%;height:60px; padding:20px">'
-        +	'<span>没有数据</span>'
+        + '<span>没有数据</span>'
         + '</div>';
 
     return str;

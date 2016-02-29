@@ -7,6 +7,7 @@ import java.util.List;
  * Created by root on 16-2-22.
  */
 public class Task implements Serializable {
+    private String taskid;
     private String uid;
     private String name;
     private String tasktypeid;
@@ -105,5 +106,13 @@ public class Task implements Serializable {
 
     public void setRegexfilter(List<String> regexfilter) {
         this.regexfilter = regexfilter;
+    }
+
+    public String getTaskid() {
+        return taskid;
+    }
+
+    public void setTaskid(String taskid) {
+        this.taskid = taskid;
     }
 }

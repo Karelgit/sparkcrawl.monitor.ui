@@ -52,12 +52,10 @@ public class TaskManagerCtrl {
     @RequestMapping(value = "addtask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
     @ResponseBody
     ResultEntity addTask(@RequestBody Task task, HttpServletRequest request) {
-        ResultEntity resultEntity = new ResultEntity();
+        // ResultEntity resultEntity = new ResultEntity();
         User user = (User) request.getSession().getAttribute("user");
         task.setUid(user.getUid());
-        System.out.println(JSON.toJSONString(task));
-
-        return resultEntity;
+        return taskService.addTask(task);
     }
 
     @RequestMapping("taskManagerView")
@@ -67,21 +65,21 @@ public class TaskManagerCtrl {
         return "pages/taskmanager";
     }
 
-//    (value = "getListByPage",method = RequestMethod.POST,headers = {"content-type=application/json","content-type=application/xml"})
+    //    (value = "getListByPage",method = RequestMethod.POST,headers = {"content-type=application/json","content-type=application/xml"})
     @RequestMapping("getListByPage")
     @ResponseBody
     public ResultEntity getListByPage(@RequestBody TaskSearch taskSearch) {
-        ResultEntity resultEntity=new ResultEntity();
+        ResultEntity resultEntity = new ResultEntity();
 
-        JSONObject json=new JSONObject();
-        json.put("uid","b5c6326d550f4c4fbf78401ef4c73cf0");
-        json.put("pageSize",10);
-        json.put("pageNo",0);
+        JSONObject json = new JSONObject();
+        json.put("uid", "b5c6326d550f4c4fbf78401ef4c73cf0");
+        json.put("pageSize", 10);
+        json.put("pageNo", 0);
         String str = "";
         try {
 
-            str = HttpUtils.doPost("http://118.118.118.3:8080/monitor/alltasks/",json.toJSONString());
-        }catch (IOException e)  {
+            str = HttpUtils.doPost("http://118.118.118.3:8080/monitor/alltasks/", json.toJSONString());
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
