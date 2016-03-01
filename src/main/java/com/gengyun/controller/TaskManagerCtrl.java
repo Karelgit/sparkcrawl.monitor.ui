@@ -1,8 +1,10 @@
 package com.gengyun.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gengyun.model.CrawlTask;
+import com.gengyun.model.CrawlTasktype;
 import com.gengyun.model.User;
 import com.gengyun.service.TaskService;
 import com.gengyun.utils.HttpUtils;
@@ -68,25 +70,102 @@ public class TaskManagerCtrl {
     //    (value = "getListByPage",method = RequestMethod.POST,headers = {"content-type=application/json","content-type=application/xml"})
     @RequestMapping("getListByPage")
     @ResponseBody
-    public ResultEntity getListByPage(@RequestBody TaskSearch taskSearch) {
-        ResultEntity resultEntity = new ResultEntity();
-
-        JSONObject json = new JSONObject();
-        json.put("uid", "b5c6326d550f4c4fbf78401ef4c73cf0");
-        json.put("pageSize", 10);
-        json.put("pageNo", 0);
-        String str = "";
-        try {
-
-            str = HttpUtils.doPost("http://118.118.118.3:8080/monitor/alltasks/", json.toJSONString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public ResultEntity getListByPage(@RequestBody TaskSearch taskSearch,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.getListByPage(taskSearch,user.getUid());
         resultEntity.setSuccess(true);
+
         TaskPage taskPage = JSON.parseObject(str, TaskPage.class);
         resultEntity.setData(taskPage);
 
+        return resultEntity;
+    }
+
+    @RequestMapping(value = "startTask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity startTask(@RequestBody String tid) {
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.startTask(tid);
+        resultEntity.setSuccess(true);
+
+        resultEntity.setData(JSON.parseObject(str));
+        return resultEntity;
+    }
+
+    @RequestMapping(value = "rtStartTask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity rsStartTask(@RequestBody String tid) {
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.rtStartTask(tid);
+        resultEntity.setSuccess(true);
+
+        resultEntity.setData(JSON.parseObject(str));
+        return resultEntity;
+    }
+
+    @RequestMapping(value = "stopTask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity stopTask(@RequestBody String tid) {
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.stopTask(tid);
+        resultEntity.setSuccess(true);
+
+        resultEntity.setData(JSON.parseObject(str));
+        return resultEntity;
+    }
+
+    @RequestMapping(value = "deleteTask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity deleteTask(@RequestBody String tid) {
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.deleteTask(tid);
+        resultEntity.setSuccess(true);
+
+        resultEntity.setData(JSON.parseObject(str));
+        return resultEntity;
+    }
+
+
+    @RequestMapping(value = "updateTask", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity updateTask(@RequestBody Task task) {
+        ResultEntity resultEntity=new ResultEntity();
+
+        System.out.println(JSON.toJSONString(task));
+
+        String str = taskService.updateTask(task);
+        resultEntity.setSuccess(true);
+
+        resultEntity.setData(JSON.parseObject(str));
+        return resultEntity;
+    }
+
+    @RequestMapping(value = "taskView", method = RequestMethod.POST, headers = {"content-type=application/json", "content-type=application/xml"})
+    @ResponseBody
+    public ResultEntity taskView(@RequestBody String tid,HttpServletRequest request) {
+        ResultEntity resultEntity=new ResultEntity();
+        String str = taskService.taskView(tid);
+        Task task= JSON.parseObject(str, Task.class);
+        task.setTaskid(tid);
+
+        List<CrawlTasktype> crawlTasktypes=taskService.getTaskTypes();
+        User user=(User)request.getSession().getAttribute("user");
+        task.setUid(user.getUid());
+        resultEntity.setSuccess(true);
+        TaskView taskView=new TaskView();
+        taskView.setTask(task);
+
+
+        for (CrawlTasktype crawlTasktype : crawlTasktypes) {
+            if(StringUtils.equals(crawlTasktype.getTasktypeid(), task.getTasktypeid())){
+                taskView.setTypename(crawlTasktype.getDesp());
+                break;
+            }
+        }
+
+
+        resultEntity.setData(taskView);
         return resultEntity;
     }
 
