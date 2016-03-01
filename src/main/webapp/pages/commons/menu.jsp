@@ -87,7 +87,7 @@
                     <span class="item-text">添加任务</span>
                 </a>
             </li>
-            <li>
+            <li id="taskmali">
                 <a href="task/taskManagerView.do" title="任务管理" data-toggle="" class="no-submenu">
                     <em class="fa fa-cube"></em>
                     <span class="item-text">任务管理</span>
@@ -166,6 +166,11 @@
         }
         if (basepath.indexOf("upload/templateview.do") > 0) {
             $("#templateli").attr("class", "active");
+        }
+
+
+        if(basepath.indexOf("taskManagerView.do")>0){
+            $("#taskmali").attr("class", "active");
         }
 
     });

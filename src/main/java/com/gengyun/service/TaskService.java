@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gengyun.dao.CrawlTasktypeMapper;
 import com.gengyun.model.CrawlTasktype;
 import com.gengyun.utils.HttpUtils;
+import com.gengyun.utils.PropertyHelper;
 import com.gengyun.vo.ResultEntity;
 import com.gengyun.vo.ResultEntity1;
 import com.gengyun.vo.Task;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,19 +27,27 @@ public class TaskService {
     @Autowired
     private CrawlTasktypeMapper crawlTasktypeMapper;
 
+    private PropertyHelper propertyHelper;
+    private String monitorUrl;
+    @PostConstruct
+    public  void  init(){
+        propertyHelper = new PropertyHelper("monitor");
+        monitorUrl = propertyHelper.getValue("monitor.url");
+    }
+
     public List<CrawlTasktype> getTaskTypes() {
         return crawlTasktypeMapper.findAll("");
     }
 
     public String getListByPage(TaskSearch taskSearch,String uid)   {
         JSONObject json=new JSONObject();
-        json.put("uid","b5c6326d550f4c4fbf78401ef4c73cf0");
+        json.put("uid",uid);
         json.put("pageSize",taskSearch.getPageSize());
         json.put("pageNo",taskSearch.getPageNo());
         String str = "";
         try {
 
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/monitor/alltasks/", json.toJSONString());
+            str = HttpUtils.doPost("http://"+monitorUrl+"/monitor/alltasks/", json.toJSONString());
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -48,7 +58,7 @@ public class TaskService {
     public String startTask(String tid) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/monitor/start/",tid);
+            str = HttpUtils.doPost("http://"+monitorUrl+"/monitor/start/",tid);
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -59,7 +69,7 @@ public class TaskService {
     public String rtStartTask(String tid) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/monitor/starttask/",tid);
+            str = HttpUtils.doPost("http://"+monitorUrl+"/monitor/starttask/",tid);
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -70,7 +80,7 @@ public class TaskService {
     public String stopTask(String tid) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/monitor/stop/",tid);
+            str = HttpUtils.doPost("http://"+monitorUrl+"/monitor/stop/",tid);
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -81,7 +91,7 @@ public class TaskService {
     public String deleteTask(String tid) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/crawlTask/deleteCrawlTask/",tid);
+            str = HttpUtils.doPost("http://"+monitorUrl+"/crawlTask/deleteCrawlTask/",tid);
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -91,7 +101,7 @@ public class TaskService {
     public String updateTask(Task task) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/crawlTask/updateCrawlTask/",JSONObject.toJSONString(task));
+            str = HttpUtils.doPost("http://"+monitorUrl+"/crawlTask/updateCrawlTask/",JSONObject.toJSONString(task));
             System.out.println("更新：" + str);
         }catch (IOException e)  {
             e.printStackTrace();
@@ -102,7 +112,7 @@ public class TaskService {
     public String taskView(String tid) {
         String str = "";
         try {
-            str = HttpUtils.doPost("http://222.85.149.5:12345/SparkCrawlMonitor/monitor/gettask/",tid);
+            str = HttpUtils.doPost("http://"+monitorUrl+"/monitor/gettask/",tid);
         }catch (IOException e)  {
             e.printStackTrace();
         }
@@ -115,7 +125,7 @@ public class TaskService {
 
 
         try {
-            String json = HttpUtils.doPost("http://localhost:8080/crawlTask/addCrawlTask/", JSON.toJSONString(task));
+            String json = HttpUtils.doPost("http://"+monitorUrl+"/crawlTask/addCrawlTask/", JSON.toJSONString(task));
             ResultEntity1 resultEntity1 = JSON.parseObject(json, ResultEntity1.class);
             resultEntity.setSuccess(resultEntity1.isResult());
             resultEntity.setData(resultEntity1.getData());
