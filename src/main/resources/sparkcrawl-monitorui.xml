@@ -6,33 +6,33 @@
 
     <context:component-scan base-package="com.gengyun"></context:component-scan>
 
-    <mvc:annotation-driven />
-    <mvc:default-servlet-handler />
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/" />
-        <property name="suffix" value=".jsp" />
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           destroy-method="close">
         <property name="url"
-                  value="jdbc:mysql://108.108.108.6:3306/db_spark_crawler?useUnicode=true&amp;characterEncoding=UTF-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+                  value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="filters" value="stat"/>
 
-        <property name="maxActive" value="20"/>
+        <property name="maxActive" value="${db.maxActive}"/>
         <property name="initialSize" value="1"/>
-        <property name="maxWait" value="60000"/>
+        <property name="maxWait" value="${db.maxWait}"/>
         <property name="minIdle" value="10"/>
 
         <property name="timeBetweenEvictionRunsMillis" value="60000"/>
         <property name="minEvictableIdleTimeMillis" value="300000"/>
 
-        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="validationQuery" value="${db.validationQuery}"/>
         <property name="testWhileIdle" value="true"/>
-        <property name="testOnBorrow" value="false"/>
+        <property name="testOnBorrow" value="${db.testOnBorrow}"/>
         <property name="testOnReturn" value="false"/>
         <property name="maxOpenPreparedStatements"
                   value="20"/>
@@ -60,5 +60,6 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 </beans>

@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="panel-body text-center">
-                                        <h3 class="mt0">调度模块</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.signatureName }"/></h3>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="row row-table row-flush">
                                 <div class="col-xs-12">
                                     <div class="panel-body text-center bg-purple">
-                                        <h3 class="mt0">状态</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.signatureStatus }"/></h3>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="row row-table row-flush">
                                 <div class="col-xs-12">
                                     <div class="panel-body text-center bg-green">
-                                        <h3 class="mt0">查询时间</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.signatureSearcheTime }"/></h3>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="panel-body text-center">
-                                        <h3 class="mt0">导入模块</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.syncName }"/></h3>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                             <div class="row row-table row-flush">
                                 <div class="col-xs-12">
                                     <div class="panel-body text-center bg-pink">
-                                        <h3 class="mt0">状态</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.syncStatus }"/></h3>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                             <div class="row row-table row-flush">
                                 <div class="col-xs-12">
                                     <div class="panel-body text-center bg-primary">
-                                        <h3 class="mt0">时间</h3>
+                                        <h3 class="mt0"><c:out value="${moduleStatus.syncSearchTime }"/></h3>
                                     </div>
                                 </div>
                             </div>

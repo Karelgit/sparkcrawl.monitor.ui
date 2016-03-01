@@ -1,7 +1,8 @@
 package com.gengyun.vo;
 
-public class ResultEntity
-{
+import java.io.Serializable;
+
+public class ResultEntity implements Serializable{
 	
 	private boolean success;
 	

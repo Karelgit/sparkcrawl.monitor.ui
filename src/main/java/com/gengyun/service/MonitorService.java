@@ -2,6 +2,7 @@ package com.gengyun.service;
 
 import com.alibaba.fastjson.JSON;
 import com.gengyun.utils.HttpUtils;
+import com.gengyun.utils.PropertyHelper;
 import com.gengyun.vo.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,15 @@ import java.util.List;
 @Scope("singleton")
 public class MonitorService {
     private SimpleDateFormat simpleDateFormat;
+    private PropertyHelper propertyHelper;
+    private String monitorUrl;
 
     @PostConstruct
-    public void intit() {
+    public void init() {
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        propertyHelper = new PropertyHelper("monitor");
+        monitorUrl = propertyHelper.getValue("monitor.url");
+
     }
 
 
@@ -31,7 +37,7 @@ public class MonitorService {
 
 
         try {
-            String jsonStr = HttpUtils.doPost("http://localhost:8080/monitor/allrunningtask/", null);
+            String jsonStr = HttpUtils.doPost("http://"+monitorUrl+"/monitor/allrunningtask/", null);
             return JSON.parseArray(jsonStr, RunningTask.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +49,7 @@ public class MonitorService {
 
     public RunningSingleTask getRunningSingleTask(String taskid) {
         try {
-            String jsonStr = HttpUtils.doPost("http://localhost:8080/monitor/singlerunningtask/", taskid);
+            String jsonStr = HttpUtils.doPost("http://"+monitorUrl+"/monitor/singlerunningtask/", taskid);
             return JSON.parseObject(jsonStr, RunningSingleTask.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +61,7 @@ public class MonitorService {
         try {
 
 
-            String jsonStr = HttpUtils.doPost("http://localhost:8080/monitor/historysingletask/", JSON.toJSONString(historySingleTaskSearch));
+            String jsonStr = HttpUtils.doPost("http://"+monitorUrl+"/monitor/historysingletask/", JSON.toJSONString(historySingleTaskSearch));
             return JSON.parseObject(jsonStr, HistorySingleTask.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,7 +79,7 @@ public class MonitorService {
             historyTaskSearch.setEndtime(simpleDateFormat.parse(historyTaskSearchUI.getEndtime()).getTime());
             historyTaskSearch.setPageNo(historyTaskSearchUI.getPageNo());
             historyTaskSearch.setPageSize(historyTaskSearchUI.getPageSize());
-            String result = HttpUtils.doPost("http://localhost:8080/monitor/history", JSON.toJSONString(historyTaskSearch));
+            String result = HttpUtils.doPost("http://"+monitorUrl+"/monitor/history", JSON.toJSONString(historyTaskSearch));
 
             return JSON.parseObject(result, HistoryTaskPage.class);
 

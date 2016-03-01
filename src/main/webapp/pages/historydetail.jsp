@@ -235,22 +235,23 @@
     var funcs = {
         inintEvent: function () {
 
-            var taskid = '<c:out value="${runnningSingleTask.taskid }" />';
-            funcs.query(taskid);
+            var taskid = '<c:out value="${historySingleTask.taskid }" />';
+            var pass = '<c:out value="${historySingleTask.passed }" />';
+            funcs.query(taskid, pass);
         },
-        query: function (taskid) {
+        query: function (taskid, pass) {
             $.ajax({
                 type: "POST",
-                url: "monitor/rtsingletask.do",
+                url: "monitor/hssingletask.do",
                 dataType: "json",
                 contentType: 'application/json',
-                data: taskid,
+                data: JSON.stringify({taskid: taskid, pass: pass}),
                 async: false,
                 success: function (data) {
                     if (data.success) {
                         var map = funcs.table(data.data.seedSyncCounts);
-                        var hourCrawlCounts = data.data.hourCrawlCounts;
-                        var hourSyncCounts = data.data.hourSyncCounts;
+                        var hourCrawlCounts = data.data.lastweekCrawlCounts;
+                        var hourSyncCounts = data.data.lastweekSyncCounts;
                         console.log(data.data);
                         var xSerial = [];
                         var ySerial = [];
@@ -415,7 +416,7 @@
     };
 
     $().ready(function () {
-        //funcs.inintEvent();
+        funcs.inintEvent();
     });
 </script>
 <!-- END Scripts-->

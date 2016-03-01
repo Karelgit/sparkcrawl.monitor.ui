@@ -50,7 +50,7 @@
             <!-- Search icon-->
             <li>
                 <a href="user/logout.do">
-                    <em class="fa fa-dot-circle-o" style="font-size: 20px"></em>
+                    <em class="fa fa-power-off" style="font-size: 20px"></em>
                     <span class="item-text" style="font-size: 20px">退出系统</span>
                 </a>
             </li>
@@ -83,7 +83,7 @@
             <!-- START Menu-->
             <li id="addTaskli">
                 <a href="task/addView.do" title="添加任务" data-toggle="" class="no-submenu">
-                    <em class="fa fa-cube"></em>
+                    <em class="fa fa-plus"></em>
                     <span class="item-text">添加任务</span>
                 </a>
             </li>
@@ -120,15 +120,15 @@
                 <!-- END SubMenu item-->
             </li>
 
-            <li>
+            <li id="templateli">
                 <a href="upload/templateview.do" title="模板上传" data-toggle="" class="no-submenu">
-                    <em class="fa fa-cube"></em>
+                    <em class="fa fa-cloud-upload"></em>
                     <span class="item-text">模板上传</span>
                 </a>
             </li>
-            <li>
+            <li id="tagli">
                 <a href="upload/tagview.do" title="标签上传" data-toggle="" class="no-submenu">
-                    <em class="fa fa-cube"></em>
+                    <em class="fa fa-upload"></em>
                     <span class="item-text">标签上传</span>
                 </a>
             </li>
@@ -159,6 +159,13 @@
             $("#secondmenu").attr("class", "nav collapse in");
             $("#historyviewli").attr("class", "active");
 
+        }
+
+        if (basepath.indexOf("upload/tagview.do") > 0) {
+            $("#tagli").attr("class", "active");
+        }
+        if (basepath.indexOf("upload/templateview.do") > 0) {
+            $("#templateli").attr("class", "active");
         }
 
     });
