@@ -216,7 +216,7 @@
         <profile>
             <id>realdb</id>
             <properties>
-                <monitor.url>222.85.149.5:12345/SparkCrawlMonitor</monitor.url>
+                <monitor.url>127.0.0.1:8088/SparkCrawlMonitor</monitor.url>
             </properties>
             <build>
                 <filters>

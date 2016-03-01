@@ -45,7 +45,7 @@ public class UserCtrl {
                 return "pages/login";
             } else {
 
-                //SessionListener.sessionContext.getSessionMap().put(user.getUid(), request.getSession());
+                SessionListener.sessionContext.getSessionMap().put(user.getUid(), request.getSession());
                 SessionListener.sessionContext.getSessionMap().remove(request.getSession().getId());
                 if (user.getUsertype() == 1) {
                     return "pages/modulemonitor";
